@@ -110,7 +110,7 @@
 <script lang="ts" setup>
 import { computed, ref, watch } from "vue";
 import { onMounted, watchEffect } from "vue";
-import { borrow, allBorrow } from "@/api/user";
+import { borrow, UserBorrow } from "@/api/user";
 import { useUserStoreHook } from "@/store/modules/user";
 import dialogView from "./dialogView.vue";
 const selected_book = ref<borrow>();
@@ -140,7 +140,8 @@ const formatDate = dateString => {
   }
 };
 onMounted(async () => {
-  list.value = await allBorrow({ userid: userid() });
+  list.value = await UserBorrow({ userid: userid() });
+  changeTemp(state.value);
 });
 
 const select_name = computed(() => {

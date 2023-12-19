@@ -53,11 +53,12 @@
               currpage * pagesize
             )
           "
+          user
           @sort-change="sortChange"
           style="width: 100%"
         >
           <el-table-column label="借阅ID" prop="record_id" />
-          <el-table-column label="用户ID" prop="book_id" />
+          <el-table-column label="用户ID" prop="user_id" />
           <el-table-column label="书籍ID" prop="book_id" />
           <el-table-column label="书名" prop="title" />
           <el-table-column label="作者" prop="author" />
@@ -245,7 +246,7 @@ const formatDate = dateString => {
   }
 };
 const findAllBorrows = async () => {
-  list.value = await allBorrow({ userid: userid() });
+  list.value = await allBorrow();
   changeTemp(state.value);
 };
 onMounted(() => {

@@ -94,6 +94,12 @@ export type borrow = {
 };
 
 export const allBorrow = (data?: object) => {
+  return http.request<borrow[]>("post", baseUrlApi("AllBorrow"), {
+    data
+  });
+};
+
+export const UserBorrow = (data?: object) => {
   return http.request<borrow[]>("post", baseUrlApi("borrowList"), {
     data
   });
