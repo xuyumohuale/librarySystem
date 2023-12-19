@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.UserMapper">
+    <select id="findAll" resultType="user">
+        select *
+        from library.users;
+    </select>
+    <select id="findByName" resultType="user">
+        select *
+        from library.users
+        where users.Username = #{username};
+    </select>
+
+    <insert id="reg">
+        INSERT INTO library.users(username, password,name)
+        VALUES (#{username}, #{password} ,#{name});
+    </insert>
+
+    <update id="forget">
+        UPDATE library.users
+        SET password=#{password}
+        WHERE users.username = #{username};
+    </update>
+
+    <select id="AllBooks" resultType="book">
+        select *
+        from library.books;
+    </select>
+
+    <select id="findBookInborrow" resultType="borrow">
+        select *
+        from library.borrow_record
+        where borrow_record.user_id = #{user_id}
+          and borrow_record.book_id = #{book_id} and borrow_record.status != 0;
+    </select>
+
+    <update id="updateStock">
+        UPDATE library.books
+        SET stock=stock - 1
+        WHERE books.id = #{id};
+    </update>
+
+    <select id="findBorrByUser" resultType="borrow">
+        select *
+        from library.borrow_record
+                 join library.books on borrow_record.book_id = books.id
+        where borrow_record.user_id = #{user_id};
+    </select>
+
+    <select id="findAllBorrow" resultType="borrow">
+        select *
+        from library.borrow_record
+                 join library.books on borrow_record.book_id = books.id;
+    </select>
+
+    <update id="confirmLend">
+        UPDATE library.borrow_record
+        SET status=2
+        WHERE record_id = #{record_id}
+    </update>
+
+    <select id="findBookInBooks" resultType="book">
+        select * from library.books
+        where books.id=#{id};
+    </select>
+    <select id="FindBorrowByID" resultType="borrow">
+        select * from library.borrow_record
+        where borrow_record.book_id=#{book_id};
+    </select>
+
+    <insert id="LendOfBorrow" >
+        INSERT INTO library.borrow_record(user_id,book_id,status)
+        VALUES(#{user_id},#{book_id},#{status});
+    </insert>
+
+    <update id="addStock">
+        UPDATE library.books SET   stock=stock+1
+        WHERE books.id = #{id};
+    </update>
+
+    <insert id="AddBook" >
+        INSERT INTO library.books(id,title,author,publisher,isbn,stock)
+        VALUES(#{id},#{title},#{author},#{publisher},#{isbn},#{stock});
+    </insert>
+
+    <update id="UpdateBook">
+        UPDATE library.books SET
+                                 title=#{title},author=#{author},publisher=#{publisher},isbn=#{isbn},stock=#{stock}
+        WHERE books.id = #{id};
+    </update>
+
+    <delete id="DeleteBook">
+        DELETE FROM library.books WHERE books.id=#{id};
+    </delete>
+
+    <select id="findByBorrowId" resultType="borrow">
+        select * from library.borrow_record
+        where borrow_record.record_id=#{record_id};
+    </select>
+
+    <update id="UpdateBorrow">
+        UPDATE library.borrow_record SET
+                                         user_id=#{user_id},book_id=#{book_id},borrow_date=#{borrow_date},return_date=#{return_date},status=#{status}
+        WHERE borrow_record.record_id=#{record_id};
+    </update>
+
+    <update id="ReturnBook">
+        update library.borrow_record SET status=0
+        WHERE borrow_record.record_id=#{record_id};
+    </update>
+</mapper>
